@@ -35,6 +35,9 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative overflow-hidden px-4 py-20 md:py-32">
+        <div className="absolute inset-0 -z-10">
+          <img src={heroImage} alt="Talysh mountains" className="h-full w-full object-cover opacity-10" width={1920} height={800} />
+        </div>
         <div className="absolute inset-0 -z-10 opacity-5">
           <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-flag-green blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-flag-red blur-3xl" />
