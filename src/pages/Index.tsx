@@ -3,6 +3,7 @@ import { BookOpen, Trophy, Zap, Globe, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { commonPhrases } from "@/data/talyshData";
 import { useAuth } from "@/hooks/useAuth";
+import heroImage from "@/assets/hero-talysh.jpg";
 
 const features = [
   {
