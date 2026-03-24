@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +14,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast({ title: "Welcome back! 🎉" });
+        toast({ title: t("auth.welcomeToast") });
         navigate("/lessons");
       } else {
         const { error } = await supabase.auth.signUp({
@@ -31,10 +33,10 @@ const Auth = () => {
           options: { emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
-        toast({ title: "Account created! Check your email to confirm." });
+        toast({ title: t("auth.accountCreated") });
       }
     } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
+      toast({ title: t("auth.error"), description: err.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -48,18 +50,16 @@ const Auth = () => {
             <span className="text-2xl font-bold text-primary-foreground">T</span>
           </div>
           <h1 className="font-heading text-3xl font-bold">
-            {isLogin ? "Welcome Back" : "Join LearnTalysh"}
+            {isLogin ? t("auth.welcomeBack") : t("auth.join")}
           </h1>
           <p className="mt-2 text-muted-foreground">
-            {isLogin
-              ? "Continue your Talysh language journey"
-              : "Start learning the ancient Talysh language"}
+            {isLogin ? t("auth.loginSubtitle") : t("auth.signupSubtitle")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border bg-card p-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input
               id="email"
               type="email"
@@ -70,7 +70,7 @@ const Auth = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Input
               id="password"
               type="password"
@@ -82,18 +82,18 @@ const Auth = () => {
             />
           </div>
           <Button type="submit" className="w-full" variant="hero" disabled={loading}>
-            {loading ? "Loading..." : isLogin ? "Sign In" : "Create Account"}
+            {loading ? t("auth.loading") : isLogin ? t("auth.signIn") : t("auth.createAccount")}
           </Button>
         </form>
 
         <p className="text-center text-sm text-muted-foreground">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          {isLogin ? t("auth.noAccount") : t("auth.hasAccount")}{" "}
           <button
             type="button"
             onClick={() => setIsLogin(!isLogin)}
             className="font-semibold text-primary underline-offset-4 hover:underline"
           >
-            {isLogin ? "Sign Up" : "Sign In"}
+            {isLogin ? t("auth.signUp") : t("auth.signIn")}
           </button>
         </p>
       </div>

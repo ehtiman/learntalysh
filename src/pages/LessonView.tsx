@@ -1,40 +1,44 @@
-import { useState, useEffect, useMemo } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useState, useMemo } from "react";
+import { useParams, Link } from "react-router-dom";
 import { lessons, Word } from "@/data/talyshData";
 import { useProgress } from "@/hooks/useProgress";
+import { useLanguage, Language } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, ArrowRight, RotateCcw, BookOpen } from "lucide-react";
+
+const getWordTranslation = (word: Word, lang: Language) => {
+  if (lang === "ru") return word.russian;
+  if (lang === "en") return word.english;
+  return word.azerbaijani;
+};
 
 type QuizQuestion = {
   word: Word;
   options: string[];
   correctIndex: number;
-  direction: "talysh-to-english" | "english-to-talysh";
+  direction: "talysh-to-translation" | "translation-to-talysh";
 };
 
-const generateQuestions = (words: Word[]): QuizQuestion[] => {
+const generateQuestions = (words: Word[], lang: Language): QuizQuestion[] => {
   const questions: QuizQuestion[] = [];
-
   const shuffled = [...words].sort(() => Math.random() - 0.5);
 
   for (const word of shuffled) {
-    const direction: "talysh-to-english" | "english-to-talysh" =
-      Math.random() > 0.5 ? "talysh-to-english" : "english-to-talysh";
+    const direction: "talysh-to-translation" | "translation-to-talysh" =
+      Math.random() > 0.5 ? "talysh-to-translation" : "translation-to-talysh";
 
     const correctAnswer =
-      direction === "talysh-to-english" ? word.english : word.talysh;
+      direction === "talysh-to-translation" ? getWordTranslation(word, lang) : word.talysh;
     const otherWords = words
       .filter((w) => w.talysh !== word.talysh)
       .sort(() => Math.random() - 0.5)
       .slice(0, 3);
 
     const wrongAnswers = otherWords.map((w) =>
-      direction === "talysh-to-english" ? w.english : w.talysh
+      direction === "talysh-to-translation" ? getWordTranslation(w, lang) : w.talysh
     );
 
-    const options = [...wrongAnswers, correctAnswer].sort(
-      () => Math.random() - 0.5
-    );
+    const options = [...wrongAnswers, correctAnswer].sort(() => Math.random() - 0.5);
 
     questions.push({
       word,
@@ -49,8 +53,8 @@ const generateQuestions = (words: Word[]): QuizQuestion[] => {
 
 const LessonView = () => {
   const { lessonId } = useParams();
-  const navigate = useNavigate();
   const { completeLesson } = useProgress();
+  const { language, t } = useLanguage();
 
   const lesson = lessons.find((l) => l.id === lessonId);
   const [phase, setPhase] = useState<"learn" | "quiz" | "results">("learn");
@@ -61,17 +65,17 @@ const LessonView = () => {
   const [showFeedback, setShowFeedback] = useState(false);
 
   const questions = useMemo(
-    () => (lesson ? generateQuestions(lesson.words) : []),
-    [lesson]
+    () => (lesson ? generateQuestions(lesson.words, language) : []),
+    [lesson, language]
   );
 
   if (!lesson) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center">
-        <p className="text-lg text-muted-foreground">Lesson not found</p>
+        <p className="text-lg text-muted-foreground">{t("lv.notFound")}</p>
         <Link to="/lessons">
           <Button variant="default" className="mt-4">
-            Back to Lessons
+            {t("lv.backToLessons")}
           </Button>
         </Link>
       </div>
@@ -123,16 +127,18 @@ const LessonView = () => {
         ? 50 + ((currentQ + 1) / questions.length) * 50
         : 100;
 
+  const currentWord = lesson.words[learnIndex];
+
   return (
     <div className="container mx-auto max-w-2xl px-4 py-10">
       {/* Progress bar */}
       <div className="mb-6">
         <div className="mb-2 flex items-center justify-between text-sm">
           <span className="font-semibold">
-            {lesson.icon} {lesson.title}
+            {lesson.icon} {t(`lesson.${lesson.id}`)}
           </span>
           <span className="text-muted-foreground">
-            {phase === "learn" ? "Learn" : phase === "quiz" ? "Quiz" : "Done!"}
+            {phase === "learn" ? t("lv.learn") : phase === "quiz" ? t("lv.quiz") : t("lv.done")}
           </span>
         </div>
         <div className="h-3 overflow-hidden rounded-full bg-muted">
@@ -147,27 +153,24 @@ const LessonView = () => {
       {phase === "learn" && (
         <div className="animate-slide-up space-y-6 text-center">
           <p className="text-sm text-muted-foreground">
-            Word {learnIndex + 1} of {lesson.words.length}
+            {t("lv.word")} {learnIndex + 1} {t("lv.of")} {lesson.words.length}
           </p>
           <div className="rounded-2xl border bg-card p-10">
             <p className="font-heading text-4xl font-bold text-primary">
-              {lesson.words[learnIndex].talysh}
+              {currentWord.talysh}
             </p>
             <div className="mt-4 space-y-1">
-              <p className="text-xl">{lesson.words[learnIndex].english}</p>
-              <p className="text-sm text-muted-foreground">
-                🇦🇿 {lesson.words[learnIndex].azerbaijani}
-              </p>
+              <p className="text-xl">{getWordTranslation(currentWord, language)}</p>
             </div>
           </div>
           <Button onClick={handleLearnNext} variant="hero" size="lg" className="w-full">
             {learnIndex < lesson.words.length - 1 ? (
               <>
-                Next Word <ArrowRight className="ml-1" />
+                {t("lv.nextWord")} <ArrowRight className="ml-1" />
               </>
             ) : (
               <>
-                Start Quiz <ArrowRight className="ml-1" />
+                {t("lv.startQuiz")} <ArrowRight className="ml-1" />
               </>
             )}
           </Button>
@@ -178,18 +181,18 @@ const LessonView = () => {
       {phase === "quiz" && questions[currentQ] && (
         <div className="animate-slide-up space-y-6">
           <p className="text-center text-sm text-muted-foreground">
-            Question {currentQ + 1} of {questions.length}
+            {t("lv.question")} {currentQ + 1} {t("lv.of")} {questions.length}
           </p>
           <div className="rounded-2xl border bg-card p-8 text-center">
             <p className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">
-              {questions[currentQ].direction === "talysh-to-english"
-                ? "What does this mean?"
-                : "How do you say this in Talysh?"}
+              {questions[currentQ].direction === "talysh-to-translation"
+                ? t("lv.whatMean")
+                : t("lv.howSay")}
             </p>
             <p className="font-heading text-3xl font-bold">
-              {questions[currentQ].direction === "talysh-to-english"
+              {questions[currentQ].direction === "talysh-to-translation"
                 ? questions[currentQ].word.talysh
-                : questions[currentQ].word.english}
+                : getWordTranslation(questions[currentQ].word, language)}
             </p>
           </div>
 
@@ -228,7 +231,7 @@ const LessonView = () => {
 
           {showFeedback && (
             <Button onClick={handleNext} variant="default" size="lg" className="w-full">
-              {currentQ < questions.length - 1 ? "Next Question" : "See Results"}
+              {currentQ < questions.length - 1 ? t("lv.nextQuestion") : t("lv.seeResults")}
               <ArrowRight className="ml-1" />
             </Button>
           )}
@@ -243,17 +246,17 @@ const LessonView = () => {
           </div>
           <h2 className="font-heading text-3xl font-bold">
             {score === questions.length
-              ? "Perfect!"
+              ? t("lv.perfect")
               : score >= questions.length * 0.7
-                ? "Great Job!"
-                : "Keep Practicing!"}
+                ? t("lv.greatJob")
+                : t("lv.keepPracticing")}
           </h2>
           <div className="rounded-2xl border bg-card p-8">
             <p className="text-5xl font-bold text-primary">
               {Math.round((score / questions.length) * 100)}%
             </p>
             <p className="mt-2 text-muted-foreground">
-              {score}/{questions.length} correct
+              {score}/{questions.length} {t("lv.correct")}
             </p>
             <div className="mt-4 inline-flex items-center gap-1 rounded-full bg-xp/10 px-4 py-2 text-xp">
               <span className="text-lg font-bold animate-pulse-xp">
@@ -263,11 +266,11 @@ const LessonView = () => {
           </div>
           <div className="flex gap-3">
             <Button onClick={handleRetry} variant="outline" size="lg" className="flex-1">
-              <RotateCcw className="mr-1" /> Retry
+              <RotateCcw className="mr-1" /> {t("lv.retry")}
             </Button>
             <Link to="/lessons" className="flex-1">
               <Button variant="hero" size="lg" className="w-full">
-                <BookOpen className="mr-1" /> More Lessons
+                <BookOpen className="mr-1" /> {t("lv.moreLessons")}
               </Button>
             </Link>
           </div>
