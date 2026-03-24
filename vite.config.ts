@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/learntalysh/", // <--- This fixes the white screen for your current repo name
+  base: "/learntalysh/",
   server: {
     host: "::",
     port: 8080,
