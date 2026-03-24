@@ -1,20 +1,26 @@
 import { Link, useLocation } from "react-router-dom";
-import { BookOpen, Trophy, Home, User, LogOut, Flame } from "lucide-react";
+import { BookOpen, Trophy, Home, User, LogOut, Flame, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage, Language } from "@/hooks/useLanguage";
+
+const langLabels: Record<Language, string> = { az: "AZ", en: "EN", ru: "RU" };
 
 const Navbar = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
 
   const navItems = [
-    { to: "/", icon: Home, label: "Home" },
-    { to: "/lessons", icon: BookOpen, label: "Lessons" },
-    { to: "/dashboard", icon: Trophy, label: "Progress" },
+    { to: "/", icon: Home, label: t("nav.home") },
+    { to: "/lessons", icon: BookOpen, label: t("nav.lessons") },
+    { to: "/dashboard", icon: Trophy, label: t("nav.progress") },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const languages: Language[] = ["az", "en", "ru"];
 
   return (
     <nav className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-lg">
@@ -42,6 +48,23 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Language Switcher */}
+          <div className="flex items-center gap-0.5 rounded-full border bg-muted p-0.5">
+            {languages.map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLanguage(lang)}
+                className={`rounded-full px-2.5 py-1 text-xs font-semibold transition-all ${
+                  language === lang
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {langLabels[lang]}
+              </button>
+            ))}
+          </div>
+
           {user ? (
             <>
               <div className="flex items-center gap-1.5 rounded-full bg-muted px-3 py-1.5">
@@ -60,7 +83,7 @@ const Navbar = () => {
             <Link to="/auth">
               <Button variant="default" size="sm" className="gap-2">
                 <User className="h-4 w-4" />
-                Sign In
+                {t("nav.signIn")}
               </Button>
             </Link>
           )}

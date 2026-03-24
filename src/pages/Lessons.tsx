@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
 import { lessons } from "@/data/talyshData";
 import { useProgress } from "@/hooks/useProgress";
-import { CheckCircle, Lock, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
+import { CheckCircle, Star } from "lucide-react";
 
 const Lessons = () => {
   const { progress } = useProgress();
+  const { t } = useLanguage();
 
   const categories = [...new Set(lessons.map((l) => l.category))];
 
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="mb-8">
-        <h1 className="font-heading text-3xl font-bold">Lessons</h1>
+        <h1 className="font-heading text-3xl font-bold">{t("lessons.title")}</h1>
         <p className="mt-1 text-muted-foreground">
-          Complete lessons to earn XP and level up
+          {t("lessons.subtitle")}
         </p>
       </div>
 
@@ -22,23 +23,23 @@ const Lessons = () => {
       <div className="mb-10 grid grid-cols-3 gap-4">
         <div className="rounded-xl border bg-card p-4 text-center">
           <p className="text-2xl font-bold text-primary">{progress.totalXp}</p>
-          <p className="text-xs text-muted-foreground">Total XP</p>
+          <p className="text-xs text-muted-foreground">{t("lessons.totalXp")}</p>
         </div>
         <div className="rounded-xl border bg-card p-4 text-center">
           <p className="text-2xl font-bold text-accent">Lv. {progress.level}</p>
-          <p className="text-xs text-muted-foreground">Level</p>
+          <p className="text-xs text-muted-foreground">{t("lessons.level")}</p>
         </div>
         <div className="rounded-xl border bg-card p-4 text-center">
           <p className="text-2xl font-bold text-xp">
             {progress.lessonsCompleted.length}/{lessons.length}
           </p>
-          <p className="text-xs text-muted-foreground">Completed</p>
+          <p className="text-xs text-muted-foreground">{t("lessons.completed")}</p>
         </div>
       </div>
 
       {categories.map((cat) => (
         <div key={cat} className="mb-10">
-          <h2 className="mb-4 font-heading text-xl font-semibold">{cat}</h2>
+          <h2 className="mb-4 font-heading text-xl font-semibold">{t(`cat.${cat}`)}</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {lessons
               .filter((l) => l.category === cat)
@@ -62,11 +63,11 @@ const Lessons = () => {
                       )}
                       <span className="text-3xl">{lesson.icon}</span>
                       <h3 className="mt-3 font-heading text-lg font-semibold">
-                        {lesson.title}
+                        {t(`lesson.${lesson.id}`)}
                       </h3>
                       <p className="text-xs text-muted-foreground">{lesson.titleTalysh}</p>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        {lesson.description}
+                        {t(`desc.${lesson.id}`)}
                       </p>
                       <div className="mt-3 flex items-center justify-between">
                         <span className="flex items-center gap-1 text-xs text-xp">
@@ -74,7 +75,7 @@ const Lessons = () => {
                         </span>
                         {score && (
                           <span className="text-xs text-muted-foreground">
-                            Best: {score.bestScore}%
+                            {t("lessons.best")}: {score.bestScore}%
                           </span>
                         )}
                       </div>

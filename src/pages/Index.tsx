@@ -3,33 +3,25 @@ import { BookOpen, Trophy, Zap, Globe, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { commonPhrases } from "@/data/talyshData";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 import heroImage from "@/assets/hero-talysh.jpg";
-
-const features = [
-  {
-    icon: BookOpen,
-    title: "Bite-Sized Lessons",
-    description: "Learn vocabulary through short, focused lessons with real Talysh words.",
-  },
-  {
-    icon: Zap,
-    title: "Interactive Quizzes",
-    description: "Test your knowledge with multiple-choice quizzes and earn XP.",
-  },
-  {
-    icon: Trophy,
-    title: "Track Progress",
-    description: "See your streaks, levels, and scores to stay motivated.",
-  },
-  {
-    icon: Globe,
-    title: "Ancient Language",
-    description: "Explore the Talysh language — a living descendant of the ancient Avestan language.",
-  },
-];
 
 const Index = () => {
   const { user } = useAuth();
+  const { language, t } = useLanguage();
+
+  const features = [
+    { icon: BookOpen, title: t("features.lessons.title"), description: t("features.lessons.desc") },
+    { icon: Zap, title: t("features.quizzes.title"), description: t("features.quizzes.desc") },
+    { icon: Trophy, title: t("features.progress.title"), description: t("features.progress.desc") },
+    { icon: Globe, title: t("features.ancient.title"), description: t("features.ancient.desc") },
+  ];
+
+  const getTranslation = (phrase: typeof commonPhrases[0]) => {
+    if (language === "ru") return phrase.russian;
+    if (language === "en") return phrase.english;
+    return phrase.azerbaijani;
+  };
 
   return (
     <div className="min-h-screen">
@@ -46,31 +38,30 @@ const Index = () => {
         <div className="container mx-auto text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-card px-4 py-2 text-sm">
             <span className="flex h-2 w-2 rounded-full bg-success" />
-            8 lessons with 200+ words available
+            {t("hero.badge")}
           </div>
 
           <h1 className="font-heading text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
-            Learn{" "}
-            <span className="text-gradient">Talysh</span>
+            {t("hero.title1")}{" "}
+            <span className="text-gradient">{t("hero.title2")}</span>
             <br />
-            One Word at a Time
+            {t("hero.title3")}
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            Master the ancient Talysh language through fun, interactive lessons.
-            Track your progress and earn rewards as you go.
+            {t("hero.subtitle")}
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link to={user ? "/lessons" : "/auth"}>
               <Button variant="hero" size="xl">
-                {user ? "Continue Learning" : "Start Learning Free"}
+                {user ? t("hero.continue") : t("hero.startFree")}
                 <ChevronRight className="ml-1 h-5 w-5" />
               </Button>
             </Link>
             <Link to="/lessons">
               <Button variant="outline" size="lg">
-                Browse Lessons
+                {t("hero.browse")}
               </Button>
             </Link>
           </div>
@@ -81,7 +72,7 @@ const Index = () => {
       <section className="border-t bg-muted/30 px-4 py-20">
         <div className="container mx-auto">
           <h2 className="mb-12 text-center font-heading text-3xl font-bold">
-            Why LearnTalysh?
+            {t("features.title")}
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {features.map((f) => (
@@ -104,10 +95,10 @@ const Index = () => {
       <section className="px-4 py-20">
         <div className="container mx-auto max-w-3xl">
           <h2 className="mb-2 text-center font-heading text-3xl font-bold">
-            Common Phrases
+            {t("phrases.title")}
           </h2>
           <p className="mb-10 text-center text-muted-foreground">
-            Get a taste of Talysh with these everyday expressions
+            {t("phrases.subtitle")}
           </p>
           <div className="space-y-3">
             {commonPhrases.slice(0, 5).map((phrase, i) => (
@@ -120,18 +111,15 @@ const Index = () => {
                   <p className="font-heading text-lg font-semibold text-primary">
                     {phrase.talysh}
                   </p>
-                  <p className="text-sm text-muted-foreground">{phrase.english}</p>
+                  <p className="text-sm text-muted-foreground">{getTranslation(phrase)}</p>
                 </div>
-                <span className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
-                  {phrase.azerbaijani}
-                </span>
               </div>
             ))}
           </div>
           <div className="mt-8 text-center">
             <Link to="/lessons">
               <Button variant="default" size="lg">
-                Start Full Course
+                {t("phrases.startCourse")}
                 <ChevronRight className="ml-1" />
               </Button>
             </Link>
@@ -149,7 +137,7 @@ const Index = () => {
             <span className="font-heading text-lg font-bold">LearnTalysh</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Preserving and teaching the Talysh language — one of the world's most ancient living languages.
+            {t("footer.text")}
           </p>
         </div>
       </footer>
