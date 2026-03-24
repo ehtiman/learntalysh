@@ -15,9 +15,14 @@ export default {
     fontFamily: {
         body: ["Inter", "sans-serif"],
         display: ["Space Grotesk", "sans-serif"],
+        heading: ["Space Grotesk", "sans-serif"],
       },
     extend: {
       colors: {
+        "flag-red": "hsl(var(--flag-red))",
+        "flag-green": "hsl(var(--flag-green))",
+        success: "hsl(var(--success))",
+        xp: "hsl(var(--xp-gold))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
