@@ -22,7 +22,8 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          {/* Added basename below to support GitHub Pages subfolder */}
+          <BrowserRouter basename="/learntalysh">
             <Navbar />
             <Routes>
               <Route path="/" element={<Index />} />
