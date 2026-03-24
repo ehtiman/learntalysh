@@ -90,12 +90,13 @@ export const lessons: Lesson[] = [
     category: "Basics",
     xpReward: 20,
     words: [
-      { talysh: "sı", english: "red", azerbaijani: "qırmızı", russian: "красный", category: "colors" },
-      { talysh: "siyo", english: "black", azerbaijani: "qara", russian: "чёрный", category: "colors" },
-      { talysh: "zard", english: "yellow", azerbaijani: "sarı", russian: "жёлтый", category: "colors" },
-      { talysh: "havz", english: "green", azerbaijani: "yaşıl", russian: "зелёный", category: "colors" },
-      { talysh: "kavu", english: "blue", azerbaijani: "mavi", russian: "синий", category: "colors" },
-      { talysh: "soğani", english: "pink", azerbaijani: "çəhrayı", russian: "розовый", category: "colors" },
+      { talysh: "Sı", english: "red", azerbaijani: "qırmızı", russian: "красный", category: "colors" },
+      { talysh: "Kavu", english: "blue", azerbaijani: "mavi", russian: "синий", category: "colors" },
+      { talysh: "Havz", english: "green", azerbaijani: "yaşıl", russian: "зелёный", category: "colors" },
+      { talysh: "Zard", english: "yellow", azerbaijani: "sarı", russian: "жёлтый", category: "colors" },
+      { talysh: "Siyo", english: "black", azerbaijani: "qara", russian: "чёрный", category: "colors" },
+      { talysh: "Sıpi", english: "white", azerbaijani: "ağ", russian: "белый", category: "colors" },
+      { talysh: "Xaki", english: "brown", azerbaijani: "qəhvəyi", russian: "коричневый", category: "colors" },
     ],
   },
   {
@@ -189,10 +190,10 @@ export interface Phrase {
 }
 
 export const commonPhrases: Phrase[] = [
-  { talysh: "Çoknə i?", english: "How are you?", azerbaijani: "Necəsən?", russian: "Как дела?" },
-  { talysh: "Az çoki.", english: "I am good.", azerbaijani: "Mən yaxşıyam.", russian: "У меня всё хорошо." },
-  { talysh: "Tı çoknə i?", english: "How are you?", azerbaijani: "Sən necəsən?", russian: "Как ты?" },
-  { talysh: "Tı nomi çiçe?", english: "What is your name?", azerbaijani: "Sənin adın nədir?", russian: "Как тебя зовут?" },
+  { talysh: "Çoknəş?", english: "How are you?", azerbaijani: "Necəsən?", russian: "Как дела?" },
+  { talysh: "Az çokim.", english: "I am good.", azerbaijani: "Mən yaxşıyam.", russian: "У меня всё хорошо." },
+  { talysh: "Tı çoknəş?", english: "How are you?", azerbaijani: "Sən necəsən?", russian: "Как ты?" },
+  { talysh: "Iştı nom çiçe?", english: "What is your name?", azerbaijani: "Sənin adın nədir?", russian: "Как тебя зовут?" },
   { talysh: "Çımı nom ... -e.", english: "My name is ...", azerbaijani: "Mənim adım ...-dir.", russian: "Меня зовут ..." },
   { talysh: "Xıdo hafiz!", english: "Goodbye!", azerbaijani: "Xudahafiz!", russian: "До свидания!" },
   { talysh: "Sıpas!", english: "Thank you!", azerbaijani: "Təşəkkür!", russian: "Спасибо!" },
