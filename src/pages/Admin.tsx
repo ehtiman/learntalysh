@@ -1,3 +1,4 @@
+import { KnowledgeUpload } from "@/components/admin/KnowledgeUpload";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
