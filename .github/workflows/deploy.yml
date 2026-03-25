@@ -16,9 +16,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Install dependencies
-        run: |
-          npm install eslint-plugin-react-hooks@^5.2.0 --legacy-peer-deps --save-dev
-          npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps
       - name: Build
         run: npm run build
         env:
