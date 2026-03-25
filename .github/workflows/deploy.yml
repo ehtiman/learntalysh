@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm install
+      - run: npm install --legacy-peer-deps
       
       # This is the critical change: injecting the secrets during the build
       - name: Build
