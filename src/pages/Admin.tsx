@@ -17,7 +17,6 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // List of your website sections
   const categories = ["Colors", "Numbers", "Greetings", "Animals", "Phrases"];
 
   const [formData, setFormData] = useState({
@@ -91,21 +90,19 @@ export default function Admin() {
         </div>
       </div>
       
-      {/* --- NEW SECTION: AI KNOWLEDGE UPLOAD --- */}
       <section className="mb-12 p-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl">
         <div className="flex items-center gap-2 mb-4 text-slate-700">
           <BrainCircuit className="w-5 h-5" />
           <h2 className="text-lg font-semibold">AI Training Sources</h2>
         </div>
         <p className="text-sm text-slate-500 mb-4">
-          Upload Talysh texts, book excerpts, or grammar rules here to "train" the AI.
+          Upload Talysh texts, book excerpts, or grammar rules here to train the AI.
         </p>
         <KnowledgeUpload />
       </section>
 
       <hr className="my-10" />
 
-      {/* --- EXISTING SECTION: WORD LESSONS --- */}
       <div className="flex items-center gap-2 mb-4">
         <BookOpen className="w-5 h-5 text-primary" />
         <h2 className="text-lg font-semibold">Manage Dictionary Items</h2>
@@ -116,7 +113,7 @@ export default function Admin() {
           <div className="space-y-2">
             <label className="text-sm font-medium">Section/Category</label>
             <select 
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               value={formData.category}
               onChange={e => setFormData({...formData, category: e.target.value})}
             >
@@ -125,12 +122,55 @@ export default function Admin() {
               ))}
             </select>
           </div>
-
           <div className="space-y-2">
             <label className="text-sm font-medium">Talysh Word</label>
             <Input value={formData.talysh_name} onChange={e => setFormData({...formData, talysh_name: e.target.value})} required />
           </div>
-
           <div className="space-y-2">
             <label className="text-sm font-medium">English Meaning</label>
-            <Input value={formData.english_name} onChange={e => setFormData
+            <Input value={formData.english_name} onChange={e => setFormData({...formData, english_name: e.target.value})} required />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Azerbaijani</label>
+            <Input value={formData.az_name} onChange={e => setFormData({...formData, az_name: e.target.value})} />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Russian</label>
+            <Input value={formData.ru_name} onChange={e => setFormData({...formData, ru_name: e.target.value})} />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Saving..." : editingId ? <><Check className="w-4 h-4 mr-1" /> Update</> : "Add Word"}
+          </Button>
+          {editingId && (
+            <Button type="button" variant="outline" onClick={resetForm}>
+              <X className="w-4 h-4 mr-1" /> Cancel
+            </Button>
+          )}
+        </div>
+      </form>
+
+      <div className="space-y-2">
+        {lessons.map(item => (
+          <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg bg-white">
+            <div>
+              <span className="font-semibold text-primary">{item.talysh_name}</span>
+              <span className="mx-2 text-muted-foreground">—</span>
+              <span>{item.english_name}</span>
+              <span className="ml-2 text-xs bg-secondary px-2 py-0.5 rounded-full">{item.category}</span>
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" variant="ghost" onClick={() => startEdit(item)}>
+                <Pencil className="w-4 h-4" />
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => deleteItem(item.id)}>
+                <Trash2 className="w-4 h-4 text-destructive" />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
