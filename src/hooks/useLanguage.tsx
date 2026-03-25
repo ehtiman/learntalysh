@@ -18,7 +18,7 @@ const translations: Record<string, Record<Language, string>> = {
   "nav.signIn": { az: "Daxil ol", en: "Sign In", ru: "Войти" },
 
   // Index page
-  "hero.badge": { az: "8 dərs və 200+ söz mövcuddur", en: "8 lessons with 200+ words available", ru: "8 уроков с 200+ словами" },
+  "hero.badge": { az: "50 dərs və 500+ söz mövcuddur", en: "50 lessons with 500+ words available", ru: "50 уроков с 500+ словами" },
   "hero.title1": { az: "Öyrən", en: "Learn", ru: "Изучай" },
   "hero.title2": { az: "Talışca", en: "Talysh", ru: "Талышский" },
   "hero.title3": { az: "Hər dəfə bir söz", en: "One Word at a Time", ru: "По одному слову" },
