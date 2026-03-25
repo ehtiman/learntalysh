@@ -11,6 +11,7 @@ import Lessons from "./pages/Lessons";
 import LessonView from "./pages/LessonView";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
+import Admin from "./pages/Admin"; // Added Admin import
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/lesson/:lessonId" element={<LessonView />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/admin" element={<Admin />} /> {/* Added Admin Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
