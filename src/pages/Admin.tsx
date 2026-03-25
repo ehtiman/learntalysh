@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { Pencil, Trash2, X, Check, LayoutGrid } from "lucide-react";
+import { Pencil, Trash2, X, Check, BookOpen, BrainCircuit } from "lucide-react";
 
 export default function Admin() {
   const { user, loading: authLoading } = useAuth();
@@ -91,9 +91,28 @@ export default function Admin() {
         </div>
       </div>
       
+      {/* --- NEW SECTION: AI KNOWLEDGE UPLOAD --- */}
+      <section className="mb-12 p-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl">
+        <div className="flex items-center gap-2 mb-4 text-slate-700">
+          <BrainCircuit className="w-5 h-5" />
+          <h2 className="text-lg font-semibold">AI Training Sources</h2>
+        </div>
+        <p className="text-sm text-slate-500 mb-4">
+          Upload Talysh texts, book excerpts, or grammar rules here to "train" the AI.
+        </p>
+        <KnowledgeUpload />
+      </section>
+
+      <hr className="my-10" />
+
+      {/* --- EXISTING SECTION: WORD LESSONS --- */}
+      <div className="flex items-center gap-2 mb-4">
+        <BookOpen className="w-5 h-5 text-primary" />
+        <h2 className="text-lg font-semibold">Manage Dictionary Items</h2>
+      </div>
+
       <form onSubmit={handleSubmit} className={`grid gap-4 mb-10 p-6 border rounded-lg shadow-sm transition-all ${editingId ? 'bg-amber-50 border-amber-200' : 'bg-white'}`}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Category Selector */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Section/Category</label>
             <select 
@@ -114,66 +133,4 @@ export default function Admin() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium">English Meaning</label>
-            <Input value={formData.english_name} onChange={e => setFormData({...formData, english_name: e.target.value})} required />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Azerbaijani Translation</label>
-            <Input value={formData.az_name} onChange={e => setFormData({...formData, az_name: e.target.value})} required />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Russian Translation</label>
-            <Input value={formData.ru_name} onChange={e => setFormData({...formData, ru_name: e.target.value})} required />
-          </div>
-        </div>
-
-        <div className="flex gap-2 pt-2">
-          <Button type="submit" className="flex-1" disabled={loading}>
-            {editingId ? <><Check className="w-4 h-4 mr-2"/> Save Changes</> : "Add to Website"}
-          </Button>
-          {editingId && (
-            <Button type="button" variant="outline" onClick={resetForm}><X className="w-4 h-4"/></Button>
-          )}
-        </div>
-      </form>
-
-      <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-50 text-sm uppercase text-gray-600 font-semibold">
-            <tr>
-              <th className="p-4 border-b">Category</th>
-              <th className="p-4 border-b">Talysh</th>
-              <th className="p-4 border-b">English</th>
-              <th className="p-4 border-b text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            {lessons.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="p-8 text-center text-gray-400">No content found. Start by adding some above!</td>
-              </tr>
-            ) : (
-              lessons.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="p-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {item.category}
-                    </span>
-                  </td>
-                  <td className="p-4 font-bold text-primary">{item.talysh_name}</td>
-                  <td className="p-4">{item.english_name}</td>
-                  <td className="p-4 text-right flex justify-end gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => startEdit(item)}><Pencil className="w-4 h-4 text-blue-600"/></Button>
-                    <Button variant="ghost" size="sm" onClick={() => deleteItem(item.id)}><Trash2 className="w-4 h-4 text-red-600"/></Button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
+            <Input value={formData.english_name} onChange={e => setFormData
