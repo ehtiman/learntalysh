@@ -42,8 +42,8 @@ export default function Admin() {
     setLoading(true);
     
     const { error } = editingId 
-      ? await supabase.from("lessons").update(formData).eq('id', editingId)
-      : await supabase.from("lessons").insert([formData]);
+      ? await (supabase.from as any)("lessons").update(formData).eq('id', editingId)
+      : await (supabase.from as any)("lessons").insert([formData]);
 
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
