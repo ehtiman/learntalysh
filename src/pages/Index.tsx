@@ -1,3 +1,4 @@
+import { Chatbot } from "@/components/Chatbot";
 import { Link } from "react-router-dom";
 import { BookOpen, Trophy, Zap, Globe, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,6 +68,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+      <div className="py-16 bg-background container mx-auto px-4">
+        <Chatbot />
+      </div>
 
       {/* Features */}
       <section className="border-t bg-muted/30 px-4 py-20">
