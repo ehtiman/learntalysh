@@ -12,8 +12,7 @@ export const KnowledgeUpload = () => {
     setLoading(true);
     setMessage("");
 
-    const { error } = await supabase
-      .from('talysh_knowledge')
+    const { error } = await (supabase.from as any)('talysh_knowledge')
       .insert([{ content: text }]);
 
     if (error) {

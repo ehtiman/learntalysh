@@ -28,7 +28,7 @@ export default function Admin() {
   });
 
   const fetchLessons = async () => {
-    const { data } = await supabase.from("lessons").select("*").order("category").order("created_at", { ascending: false });
+    const { data } = await (supabase.from as any)("lessons").select("*").order("category").order("created_at", { ascending: false });
     if (data) setLessons(data);
   };
 
@@ -42,8 +42,8 @@ export default function Admin() {
     setLoading(true);
     
     const { error } = editingId 
-      ? await supabase.from("lessons").update(formData).eq('id', editingId)
-      : await supabase.from("lessons").insert([formData]);
+      ? await (supabase.from as any)("lessons").update(formData).eq('id', editingId)
+      : await (supabase.from as any)("lessons").insert([formData]);
 
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -57,7 +57,7 @@ export default function Admin() {
 
   const deleteItem = async (id: string) => {
     if (!confirm("Are you sure you want to delete this?")) return;
-    const { error } = await supabase.from("lessons").delete().eq('id', id);
+    const { error } = await (supabase.from as any)("lessons").delete().eq('id', id);
     if (error) toast({ title: "Delete failed", variant: "destructive" });
     else fetchLessons();
   };
