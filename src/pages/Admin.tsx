@@ -28,7 +28,7 @@ export default function Admin() {
   });
 
   const fetchLessons = async () => {
-    const { data } = await supabase.from("lessons").select("*").order("category").order("created_at", { ascending: false });
+    const { data } = await (supabase.from as any)("lessons").select("*").order("category").order("created_at", { ascending: false });
     if (data) setLessons(data);
   };
 
