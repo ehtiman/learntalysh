@@ -169,7 +169,9 @@ export const lessons: Lesson[] = [
     xpReward: 25,
     words: [
       { talysh: "kə", english: "house", azerbaijani: "ev", russian: "дом", category: "home" },
-  {
+    ],
+    },
+    {
     id: "numbers",
     title: "Numbers 1-10",
     titleTalysh: "Ədədon 1-10",
