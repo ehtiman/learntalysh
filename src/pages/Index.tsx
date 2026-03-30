@@ -68,6 +68,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+
       <div className="py-16 bg-background container mx-auto px-4">
         <Chatbot />
       </div>
@@ -99,54 +100,4 @@ const Index = () => {
       <section className="px-4 py-20">
         <div className="container mx-auto max-w-3xl">
           <h2 className="mb-2 text-center font-heading text-3xl font-bold">
-            {t("phrases.title")}
-          </h2>
-          <p className="mb-10 text-center text-muted-foreground">
-            {t("phrases.subtitle")}
-          </p>
-          <div className="space-y-3">
-            {commonPhrases.slice(0, 5).map((phrase, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-xl border bg-card p-4 transition-all hover:shadow-md"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div>
-                  <p className="font-heading text-lg font-semibold text-primary">
-                    {phrase.talysh}
-                  </p>
-                  <p className="text-sm text-muted-foreground">{getTranslation(phrase)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Link to="/lessons">
-              <Button variant="default" size="lg">
-                {t("phrases.startCourse")}
-                <ChevronRight className="ml-1" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t bg-muted/30 px-4 py-10">
-        <div className="container mx-auto text-center">
-          <div className="mb-3 flex items-center justify-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-flag-gradient">
-              <span className="text-sm font-bold text-primary-foreground">T</span>
-            </div>
-            <span className="font-heading text-lg font-bold">LearnTalysh</span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {t("footer.text")}
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default Index;
+            {
