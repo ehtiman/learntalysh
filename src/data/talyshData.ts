@@ -713,7 +713,7 @@ export const lessons: Lesson[] = [
       { talysh: "çodəşəmbə", english: "Wednesday", azerbaijani: "çərşənbə", russian: "среда", category: "day" },
       { talysh: "pəncşəmbə", english: "Thursday", azerbaijani: "cümə axşamı", russian: "четверг", category: "day" },
       { talysh: "cumə", english: "Friday", azerbaijani: "cümə", russian: "пятница", category: "day" },
-      { talysh: "haftə", english: "week", azerbaijani: "həftə", russian: "неделя", category: "time" },
+      { talysh: "haftə", english: "week", azerbaijani: "həftə", russian: "neделя", category: "time" },
     ],
   },
   {
