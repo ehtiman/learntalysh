@@ -28,7 +28,7 @@ export const Chatbot = () => {
       const queryEmbedding = embeddingResponse.data[0].embedding;
 
       // 2. Call the "Match" function in Supabase
-      const { data, error } = await supabase.rpc('match_talysh_knowledge', {
+      const { data, error } = await (supabase.rpc as any)('match_talysh_knowledge', {
         query_embedding: queryEmbedding,
         match_threshold: 0.5,
         match_count: 3,
