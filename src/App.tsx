@@ -15,6 +15,10 @@ import Admin from "./pages/Admin"; // Added Admin import
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+const routerBasename =
+  typeof window !== "undefined" && window.location.pathname.startsWith("/learntalysh")
+    ? "/learntalysh"
+    : undefined;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,8 +27,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          {/* Added basename below to support GitHub Pages subfolder */}
-          <BrowserRouter basename="/learntalysh">
+          <BrowserRouter basename={routerBasename}>
             <Navbar />
             <Routes>
               <Route path="/" element={<Index />} />
